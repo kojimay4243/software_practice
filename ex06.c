@@ -110,14 +110,10 @@ void output(char *output_txt, SRec *record, int n){
         for (i = 0; i < n; i++) {
           fprintf(fo, "%.1f %d %s\n", record->gpa, record->credit,
                   record->name);
+          free(record);
           record = record->next;
 	}
         fclose(fo);
-        while (record != NULL){
-        temp = record->next;
-        free(record);
-        record = temp;
-    }
 }
 
 int main(int argc, char *argv[]) {
