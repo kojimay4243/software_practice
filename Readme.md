@@ -1,2 +1,3 @@
 command list
-'g++ ex06.c -o ex06'
+
+`g++ ex06.c -o ex06`
