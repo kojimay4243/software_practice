@@ -12,48 +12,12 @@ typedef struct school_record SRec;
  SRec *next;
 };
 
-// SRec* input(char *input_txt,int* count){
-// 	FILE *fp;
-// 	int i,n;
-// 	fp = fopen(input_txt, "r");
-// 	if (fp == NULL) {
-// 	        fprintf(stderr, "Cannot open file: %s\n", input_txt);
-// 	        return 0;
-// 	    }
-// 	fscanf(fp,"%d",&n);
-// 	if(n <= 0){
-//         printf("input number error");
-//         exit(0);
-// 	}
-//         //printf("input number is %d\n", n);
-//     SRec *record = (SRec *)calloc(n, sizeof(SRec));
-//     if (record == NULL) {
-//         printf("calloc error");
-//         exit(0);
-//     }
-// 	for(i = 0; i< n; i++){
-//           fscanf(fp, "%f", &record[i].gpa);
-//           if(record[i].gpa < 0 || record[i].gpa > 4){
-//               printf("gpa range error.\n");
-//               exit(0);
-//           }
-//           fscanf(fp, "%d", &record[i].credit);
-//             if(record[i].credit < 0){
-//                 printf("credit range error.\n");
-//                 exit(0);
-//             }
-//         fscanf(fp,"%199s", record[i].name);
-// 	}
-// 	*count = n;
-// 	fclose(fp);
-// 	return record;
-// }
 
 SRec *input(char *input_txt,int* count) {
  SRec *head;
  SRec **tail = &head;
  	FILE *fp;
-	int i,n= 0;
+	int n= 0;
 	fp = fopen(input_txt, "r");
 	if (fp == NULL) {
 	        fprintf(stderr, "Cannot open file: %s\n", input_txt);
@@ -88,7 +52,7 @@ SRec *input(char *input_txt,int* count) {
 	    fclose(fp);
         return head;
 }
-
+/*
 int comp_gpa(const void *a, const void *b) {
   // GPAによる比較処理
   if (((SRec *)a)->gpa > ((SRec *)b)->gpa) {
@@ -132,7 +96,7 @@ void sort(SRec data[], int n, subr comp) {
         data[n - i - 1] = data[max];
         data[max] = temp;
     }
-}
+}*/
 
 void output(char *output_txt, SRec *record, int n){
 	int i;
@@ -165,16 +129,16 @@ int main(int argc, char *argv[]) {
 	int count = 0;
     SRec *input_;
 
-    if (strcmp(argv[1], "gpa") == 0) {
-        comp = comp_gpa;
-    } else if (strcmp(argv[1], "credit") == 0) {
-        comp = comp_credit;
-    } else if (strcmp(argv[1], "name") == 0) {
-        comp = comp_name;
-    } else {
-        printf("Invalid argument\n");
-        return 1;
-    }
+    // if (strcmp(argv[1], "gpa") == 0) {
+    //     comp = comp_gpa;
+    // } else if (strcmp(argv[1], "credit") == 0) {
+    //     comp = comp_credit;
+    // } else if (strcmp(argv[1], "name") == 0) {
+    //     comp = comp_name;
+    // } else {
+    //     printf("Invalid argument\n");
+    //     return 1;
+    // }
 
     input_ = input(argv[2], &count);
     //sort(input_,count,comp);
