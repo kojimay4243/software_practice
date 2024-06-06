@@ -52,7 +52,7 @@ SRec *input(char *input_txt,int* count) {
 	    fclose(fp);
         return head;
 }
-/*
+
 int comp_gpa(const void *a, const void *b) {
   // GPAによる比較処理
   if (((SRec *)a)->gpa > ((SRec *)b)->gpa) {
@@ -79,9 +79,7 @@ int comp_name(const void *a, const void *b) {
   // 名前による比較処理
   return strcmp(((SRec *)a)->name, ((SRec *)b)->name);
 }
-
-
-
+/*
 void sort(SRec data[], int n, subr comp) {
   SRec temp;
   int max;
@@ -97,6 +95,52 @@ void sort(SRec data[], int n, subr comp) {
         data[max] = temp;
     }
 }*/
+
+// SRec *listsort(SRec *head, int (*compar)(const void *, const void *)) {
+//   SRec *sorted_head = NULL;
+//   SRec dummy = {0, 0, "", NULL};
+//   SRec *pp, *max;
+//   dummy.next = head;
+
+//   while (head != NULL) {
+//     pp = &dummy;
+//     max = head;
+//     for (pp; pp->next != NULL; pp = pp->next) {
+//       //ppが最大値を見つけるまで探索(nullなら終了)
+//       if (compar(pp->next, max->next) > 0) {
+//         max = pp;    //最大値の直前の要素をmaxにする
+//       }
+//     }
+//     fprintf(stderr, "max = %.1f %d %s\n", max->gpa, max->credit, max->name);
+//     pp = max;
+//     fprintf(stderr, "find max = %.1f %d %s\n", pp->gpa, pp->credit,
+//     pp->name); pp->next = max->next->next; // max->nextをリストから外す
+//     max->next->next = sorted_head;     //max->nextをsorted_headにつなげる
+//     sorted_head = max->next;           // maxをsorted_headにする
+//   }
+//   return sorted_head;
+// }
+
+SRec *mysort(SRec *head, subr comp) {
+  SRec **p, **max;
+  SRec *cursor = head;
+  SRec *temp;
+  SRec **tail;
+  while (cursor != NULL) {
+    for(p = &head, max = &head; (*p) != NULL; p = &(*p)->next) {
+      if (comp(*max, *p) < 0) {
+        max = p;
+      }
+    }
+    //fprintf(stderr, "max = %.1f %d %s\n", (*max)->gpa, (*max)->credit, (*max)->name);
+    temp =  *max;
+    *max = (*max)->next;
+    
+
+    cursor = cursor->next;
+  }
+  return head;
+}
 
 void output(char *output_txt, SRec *record, int n){
 	int i;
@@ -125,19 +169,19 @@ int main(int argc, char *argv[]) {
 	int count = 0;
     SRec *input_;
 
-    // if (strcmp(argv[1], "gpa") == 0) {
-    //     comp = comp_gpa;
-    // } else if (strcmp(argv[1], "credit") == 0) {
-    //     comp = comp_credit;
-    // } else if (strcmp(argv[1], "name") == 0) {
-    //     comp = comp_name;
-    // } else {
-    //     printf("Invalid argument\n");
-    //     return 1;
-    // }
+    if (strcmp(argv[1], "gpa") == 0) {
+        comp = comp_gpa;
+    } else if (strcmp(argv[1], "credit") == 0) {
+        comp = comp_credit;
+    } else if (strcmp(argv[1], "name") == 0) {
+        comp = comp_name;
+    } else {
+        printf("Invalid argument\n");
+        return 1;
+    }
 
     input_ = input(argv[2], &count);
-    //sort(input_,count,comp);
+    input_ = mysort(input_,comp);
     output(argv[3],input_,count);
 
 	return 0;
