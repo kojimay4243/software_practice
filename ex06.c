@@ -45,7 +45,6 @@ SRec *input(char *input_txt,int* count) {
             *tail = p;
             tail = &(p->next);
             n++;
-            fprintf(stderr, "n = %d\t gpa = %.1f\t credit = %d\t name = %s\n", n, p->gpa, p->credit, p->name);
     }
 
         *count = n;
@@ -123,23 +122,21 @@ void sort(SRec data[], int n, subr comp) {
 
 SRec *mysort(SRec *head, subr comp) {
   SRec **p, **max;
-  SRec *cursor = head;
   SRec *temp;
-  SRec **tail;
-  while (cursor != NULL) {
+  SRec *new_head = NULL;
+  while (head != NULL) {
     for(p = &head, max = &head; (*p) != NULL; p = &(*p)->next) {
-      if (comp(*max, *p) < 0) {
+      if (comp(*max, *p) > 0) {
         max = p;
       }
     }
-    //fprintf(stderr, "max = %.1f %d %s\n", (*max)->gpa, (*max)->credit, (*max)->name);
-    temp =  *max;
+    temp = *max;
     *max = (*max)->next;
-    
-
-    cursor = cursor->next;
+    temp->next = new_head;
+    new_head = temp;
   }
-  return head;
+  fprintf(stderr, " sort finished\n");
+  return new_head;
 }
 
 void output(char *output_txt, SRec *record, int n){
@@ -167,7 +164,7 @@ int main(int argc, char *argv[]) {
 		return 0;
 	}
 	int count = 0;
-    SRec *input_;
+    SRec *input_,*input_2;
 
     if (strcmp(argv[1], "gpa") == 0) {
         comp = comp_gpa;
@@ -181,7 +178,7 @@ int main(int argc, char *argv[]) {
     }
 
     input_ = input(argv[2], &count);
-    input_ = mysort(input_,comp);
+    input_ = mysort(input_, comp);
     output(argv[3],input_,count);
 
 	return 0;
