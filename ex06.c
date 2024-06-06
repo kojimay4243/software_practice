@@ -101,7 +101,6 @@ SRec *mysort(SRec *head, subr comp) {
 void output(char *output_txt, SRec *record, int n){
 	int i;
         FILE *fo;
-        SRec *temp;
 	if(strcmp(output_txt,"output.txt")){
 		fprintf(stderr, "Incorrect file name: %s\n", output_txt);
 			        return;
@@ -123,7 +122,7 @@ int main(int argc, char *argv[]) {
 		return 0;
 	}
 	int count = 0;
-    SRec *input_,*input_2;
+    SRec *input_;
 
     if (strcmp(argv[1], "gpa") == 0) {
         comp = comp_gpa;
